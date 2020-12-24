@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.admin.mapper.SysLogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.seven.admin.bean.entity.SysLogEntity" id="sysLogMap">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="title" column="title"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remoteAddr" column="remote_addr"/>
+        <result property="userAgent" column="user_agent"/>
+        <result property="requestUri" column="request_uri"/>
+        <result property="method" column="method"/>
+        <result property="params" column="params"/>
+        <result property="time" column="time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="exception" column="exception"/>
+    </resultMap>
+
+
+    <sql id="Base_All_Column_List">
+        id   ,type  ,title  ,service_id  ,create_by  ,create_time  ,update_time  ,remote_addr  ,user_agent  ,request_uri  ,method  ,params  ,time  ,del_flag  ,exception 
+    </sql>
+
+</mapper>

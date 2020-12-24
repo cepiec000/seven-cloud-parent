@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seven.admin.mapper.SysUserMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.seven.admin.bean.entity.SysUserEntity" id="sysUserMap">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="phone" column="phone"/>
+        <result property="avatar" column="avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="lockFlag" column="lock_flag"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+
+    <sql id="Base_All_Column_List">
+        user_id   ,username  ,password  ,salt  ,phone  ,avatar  ,dept_id  ,create_time  ,update_time  ,lock_flag  ,del_flag 
+    </sql>
+    <select id="unassignedRoleList" parameterType="com.seven.admin.bean.query.UserQuery" resultMap="sysUserMap">
+        select * from (
+            select distinct su.* from sys_user su
+            left join sys_user_role sur on su.user_id=sur.user_id
+            where sur.user_id is null
+            <if test="user.username !=null and user.username !=''">
+                and su.username like councat("%",#{user.username},"%")
+            </if>
+            <if test="user.phone !=null and user.phone !=''">
+                and su.phone like councat("%",#{user.phpme},"")
+            </if>
+        ) as temp
+        limit #{start},#{end}
+    </select>
+
+    <select id="countUnassignedRole" parameterType="com.seven.admin.bean.query.RoleQuery"
+            resultType="java.lang.Integer">
+            select count(1) from (
+                select distinct su.user_id from sys_user su
+                left join sys_user_role sur on su.user_id=sur.user_id
+                where sur.user_id is null
+                <if test="user.username !=null and user.username !=''">
+                    and su.username like councat("%",#{user.username},"%")
+                </if>
+                <if test="user.phone !=null and user.phone !=''">
+                    and su.phone like councat("%",#{user.phpme},"")
+                </if>
+            ) as temp
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+package ${package};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+public interface ${className}Service {
+
+}
+

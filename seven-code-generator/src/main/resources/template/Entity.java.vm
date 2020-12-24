@@ -1,0 +1,49 @@
+package ${packageEntity};
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+@TableName("${tableName}")
+@Getter
+@Setter
+@ApiModel(description = "${comments}")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class ${className}Entity implements Serializable {
+
+private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+
+#if($column.columnName == $pk.columnName)
+    @TableId#if($column.attrType == 'String')(type = IdType.UUID)#end
+
+#end
+    @ApiModelProperty(value = "$column.comments")
+    private $column.attrType $column.attrname;
+#end
+}

@@ -1,0 +1,23 @@
+package ${packageServiceImpl};
+
+import org.springframework.stereotype.Service;
+import ${packageService}.${className}Mapper;
+import ${packageService}.${className}Service;
+import lombok.extern.slf4j.Slf4j;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+
+@Slf4j
+@Service("${classname}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+    @Autowired
+    private ${className}Mapper ${classname}Mapper;
+
+}

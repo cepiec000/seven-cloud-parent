@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${packageMapper}.${className}Mapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="${packageEntity}.${className}Entity" id="${classname}Map">
+#foreach($column in $columns)
+        <result property="${column.attrname}" column="${column.columnName}"/>
+#end
+    </resultMap>
+
+
+    <sql id="Base_All_Column_List">
+#set ($i=0)
+#foreach($column in $columns)
+#if($i == 0)        ${column.columnName}#end #if($i > 0),${column.columnName}#end #set($i=$i+1) #end
+
+    </sql>
+
+</mapper>

@@ -1,0 +1,78 @@
+server:
+  # 服务器的HTTP端口，默认为80
+  port: 80
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+
+#数据源配置
+#mybatis 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+
+
+# 数据库配置
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.202.16:3306/seven?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: mysql123/321
+  # Hikari 连接池配置
+  # 最小空闲连接数量
+  hikari:
+    minimum-idle: 5
+    # 空闲连接存活最大时间，默认600000（10分钟）
+    idle-timeout: 180000
+    # 连接池最大连接数，默认是10
+    maximum-pool-size: 10
+    # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+    auto-commit: true
+    # 连接池名称
+    pool-name: MyHikariCP
+    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+    max-lifetime: 1800000
+    # 数据库连接超时时间,默认30秒，即30000
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
+
+
+shiro:
+  user:
+    # 登录地址
+    loginUrl: /login
+    #首页地址
+    indexUrl: /index
+    # 权限认证失败地址
+    unauthorizedUrl: /unauth
+    # 验证码开关
+    captchaEnabled: true
+    # 验证码类型 math 数组计算 char 字符
+    captchaType: math
+  cookie:
+    # 设置Cookie的域名 默认空，即当前访问的域名
+    domain:
+    # 设置cookie的有效访问路径
+    path: /
+    # 设置HttpOnly属性
+    httpOnly: true
+    # 设置Cookie的过期时间，天为单位
+    maxAge: 30
+    # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
+    cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==

@@ -1,0 +1,216 @@
+2020-12-21 14:31:50,360 [main] INFO  [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] EnableEncryptablePropertiesBeanFactoryPostProcessor.java:39 - Post-processing PropertySource instances
+2020-12-21 14:31:50,424 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2020-12-21 14:31:50,426 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource gateway-properties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,426 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource bootstrap [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,427 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,428 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2020-12-21 14:31:50,428 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2020-12-21 14:31:50,429 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource springCloudClientHostInfo [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,429 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource applicationConfig: [classpath:/bootstrap.yml] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,429 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource defaultProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:31:50,505 [main] INFO  [c.u.j.filter.DefaultLazyPropertyFilter] DefaultLazyPropertyFilter.java:31 - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2020-12-21 14:31:50,525 [main] INFO  [c.u.j.resolver.DefaultLazyPropertyResolver] DefaultLazyPropertyResolver.java:35 - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2020-12-21 14:31:50,529 [main] INFO  [c.u.j.detector.DefaultLazyPropertyDetector] DefaultLazyPropertyDetector.java:35 - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2020-12-21 14:31:52,009 [main] INFO  [com.seven.gateway.ApiGateWayApplication] SpringApplication.java:655 - The following profiles are active: dev
+2020-12-21 14:31:53,385 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'nacos-config' contains invalid characters, please migrate to a valid format.
+2020-12-21 14:31:53,406 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'nacos-discovery' contains invalid characters, please migrate to a valid format.
+2020-12-21 14:31:53,468 [main] ERROR [org.springframework.boot.SpringApplication] SpringApplication.java:837 - Application run failed
+java.lang.IllegalStateException: Error processing condition on com.alibaba.cloud.sentinel.gateway.scg.SentinelSCGAutoConfiguration.sentinelGatewayBlockExceptionHandler
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:60)
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:184)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:144)
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:331)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:236)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:280)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:96)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:707)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:533)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:62)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at com.seven.gateway.ApiGateWayApplication.main(ApiGateWayApplication.java:15)
+Caused by: java.lang.IllegalStateException: Failed to introspect Class [com.alibaba.cloud.sentinel.gateway.SentinelGatewayAutoConfiguration$SentinelConverterConfiguration$SentinelJsonConfiguration] from ClassLoader [sun.misc.Launcher$AppClassLoader@b4aac2]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:481)
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:358)
+	at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:414)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$getTypeForFactoryMethod$2(AbstractAutowireCapableBeanFactory.java:742)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1660)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:741)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:680)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:648)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1614)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:495)
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.collectBeanNamesForType(OnBeanCondition.java:238)
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:231)
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:221)
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchingBeans(OnBeanCondition.java:169)
+	at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchOutcome(OnBeanCondition.java:144)
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47)
+	... 18 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: com/alibaba/csp/sentinel/datasource/Converter
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:468)
+	at java.net.URLClassLoader.access$100(URLClassLoader.java:74)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:369)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:363)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:362)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:468)
+	at java.net.URLClassLoader.access$100(URLClassLoader.java:74)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:369)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:363)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:362)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Class.java:2701)
+	at java.lang.Class.getDeclaredMethods(Class.java:1975)
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:463)
+	... 34 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.alibaba.csp.sentinel.datasource.Converter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:382)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	... 62 common frames omitted
+2020-12-21 14:31:53,474 [main] WARN  [org.springframework.boot.SpringApplication] SpringApplication.java:819 - Unable to close ApplicationContext
+java.lang.IllegalStateException: Failed to introspect Class [com.alibaba.cloud.sentinel.gateway.SentinelGatewayAutoConfiguration$SentinelConverterConfiguration$SentinelJsonConfiguration] from ClassLoader [sun.misc.Launcher$AppClassLoader@b4aac2]
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:481)
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:358)
+	at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:414)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$getTypeForFactoryMethod$2(AbstractAutowireCapableBeanFactory.java:742)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1660)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:741)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:680)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:648)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1614)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:495)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:620)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeansOfType(DefaultListableBeanFactory.java:612)
+	at org.springframework.context.support.AbstractApplicationContext.getBeansOfType(AbstractApplicationContext.java:1243)
+	at org.springframework.boot.SpringApplication.getExitCodeFromMappedException(SpringApplication.java:880)
+	at org.springframework.boot.SpringApplication.getExitCodeFromException(SpringApplication.java:868)
+	at org.springframework.boot.SpringApplication.handleExitCode(SpringApplication.java:855)
+	at org.springframework.boot.SpringApplication.handleRunFailure(SpringApplication.java:806)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at com.seven.gateway.ApiGateWayApplication.main(ApiGateWayApplication.java:15)
+Caused by: java.lang.NoClassDefFoundError: com/alibaba/csp/sentinel/datasource/Converter
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:468)
+	at java.net.URLClassLoader.access$100(URLClassLoader.java:74)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:369)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:363)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:362)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:756)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:468)
+	at java.net.URLClassLoader.access$100(URLClassLoader.java:74)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:369)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:363)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:362)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Class.java:2701)
+	at java.lang.Class.getDeclaredMethods(Class.java:1975)
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:463)
+	... 21 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.alibaba.csp.sentinel.datasource.Converter
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:382)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	... 49 common frames omitted
+2020-12-21 14:33:56,318 [main] INFO  [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] EnableEncryptablePropertiesBeanFactoryPostProcessor.java:39 - Post-processing PropertySource instances
+2020-12-21 14:33:56,375 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2020-12-21 14:33:56,377 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource gateway-properties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,377 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource bootstrap [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,378 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,378 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2020-12-21 14:33:56,379 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2020-12-21 14:33:56,380 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource springCloudClientHostInfo [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,380 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource applicationConfig: [classpath:/bootstrap.yml] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,380 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource defaultProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:56,456 [main] INFO  [c.u.j.filter.DefaultLazyPropertyFilter] DefaultLazyPropertyFilter.java:31 - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2020-12-21 14:33:56,476 [main] INFO  [c.u.j.resolver.DefaultLazyPropertyResolver] DefaultLazyPropertyResolver.java:35 - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2020-12-21 14:33:56,479 [main] INFO  [c.u.j.detector.DefaultLazyPropertyDetector] DefaultLazyPropertyDetector.java:35 - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2020-12-21 14:33:57,618 [main] INFO  [com.seven.gateway.ApiGateWayApplication] SpringApplication.java:655 - The following profiles are active: dev
+2020-12-21 14:33:58,652 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'nacos-config' contains invalid characters, please migrate to a valid format.
+2020-12-21 14:33:58,658 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'nacos-discovery' contains invalid characters, please migrate to a valid format.
+2020-12-21 14:33:58,954 [main] WARN  [o.springframework.boot.actuate.endpoint.EndpointId] EndpointId.java:155 - Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2020-12-21 14:33:59,180 [main] INFO  [o.springframework.cloud.context.scope.GenericScope] GenericScope.java:295 - BeanFactory id=e823d035-5c41-31c7-aea5-d3fa205c6ed3
+2020-12-21 14:33:59,215 [main] INFO  [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] EnableEncryptablePropertiesBeanFactoryPostProcessor.java:39 - Post-processing PropertySource instances
+2020-12-21 14:33:59,221 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource bootstrapProperties-seven-gateway-dev.yml,DEFAULT_GROUP [org.springframework.cloud.bootstrap.config.BootstrapPropertySource] to EncryptableEnumerablePropertySourceWrapper
+2020-12-21 14:33:59,222 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource bootstrapProperties-seven-gateway.yml,DEFAULT_GROUP [org.springframework.cloud.bootstrap.config.BootstrapPropertySource] to EncryptableEnumerablePropertySourceWrapper
+2020-12-21 14:33:59,222 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource bootstrapProperties-seven-gateway,DEFAULT_GROUP [org.springframework.cloud.bootstrap.config.BootstrapPropertySource] to EncryptableEnumerablePropertySourceWrapper
+2020-12-21 14:33:59,223 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2020-12-21 14:33:59,223 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource gateway-properties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,223 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,223 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2020-12-21 14:33:59,223 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2020-12-21 14:33:59,224 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource springCloudClientHostInfo [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,224 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,224 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource springCloudDefaultProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,224 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource cachedrandom [org.springframework.cloud.util.random.CachedRandomPropertySource] to EncryptablePropertySourceWrapper
+2020-12-21 14:33:59,225 [main] INFO  [c.u.j.EncryptablePropertySourceConverter] EncryptablePropertySourceConverter.java:56 - Converting PropertySource defaultProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2020-12-21 14:33:59,236 [main] INFO  [c.u.j.filter.DefaultLazyPropertyFilter] DefaultLazyPropertyFilter.java:31 - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2020-12-21 14:33:59,569 [main] INFO  [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] PostProcessorRegistrationDelegate.java:335 - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-12-21 14:33:59,571 [main] INFO  [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] PostProcessorRegistrationDelegate.java:335 - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactiveLoadBalancerConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactiveLoadBalancerConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-12-21 14:33:59,574 [main] INFO  [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] PostProcessorRegistrationDelegate.java:335 - Bean 'deferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-12-21 14:33:59,806 [main] INFO  [c.u.j.resolver.DefaultLazyPropertyResolver] DefaultLazyPropertyResolver.java:35 - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2020-12-21 14:33:59,806 [main] INFO  [c.u.j.detector.DefaultLazyPropertyDetector] DefaultLazyPropertyDetector.java:35 - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2020-12-21 14:33:59,814 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-12-21 14:33:59,814 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-12-21 14:33:59,820 [main] WARN  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:121 - No URLs will be polled as dynamic configuration sources.
+2020-12-21 14:33:59,820 [main] INFO  [com.netflix.config.sources.URLConfigurationSource] URLConfigurationSource.java:122 - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2020-12-21 14:34:02,771 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [After]
+2020-12-21 14:34:02,771 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Before]
+2020-12-21 14:34:02,772 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Between]
+2020-12-21 14:34:02,772 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Cookie]
+2020-12-21 14:34:02,772 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Header]
+2020-12-21 14:34:02,773 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Host]
+2020-12-21 14:34:02,773 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Method]
+2020-12-21 14:34:02,773 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Path]
+2020-12-21 14:34:02,773 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Query]
+2020-12-21 14:34:02,774 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [ReadBody]
+2020-12-21 14:34:02,774 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [RemoteAddr]
+2020-12-21 14:34:02,774 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [Weight]
+2020-12-21 14:34:02,775 [main] INFO  [o.s.c.gateway.route.RouteDefinitionRouteLocator] RouteDefinitionRouteLocator.java:139 - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2020-12-21 14:34:04,011 [main] INFO  [o.s.b.actuate.endpoint.web.EndpointLinksResolver] EndpointLinksResolver.java:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-12-21 14:34:04,153 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskScheduler] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'Nacos-Watch-Task-Scheduler'
+2020-12-21 14:34:06,481 [main] WARN  [o.s.cloud.sleuth.zipkin2.ZipkinAutoConfiguration] ZipkinAutoConfiguration.java:111 - Check result of the [RestTemplateSender{http://localhost:9411/api/v2/spans}] contains an error [CheckResult{ok=false, error=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:9411/api/v2/spans": connect timed out; nested exception is java.net.SocketTimeoutException: connect timed out}]
+2020-12-21 14:34:09,263 [main] INFO  [o.s.boot.web.embedded.netty.NettyWebServer] NettyWebServer.java:109 - Netty started on port(s): 9999
+2020-12-21 14:34:11,557 [main] INFO  [c.a.cloud.nacos.registry.NacosServiceRegistry] NacosServiceRegistry.java:71 - nacos registry, DEFAULT_GROUP seven-gateway 10.1.65.201:9999 register finished
+2020-12-21 14:34:11,598 [main] INFO  [com.seven.gateway.ApiGateWayApplication] StartupInfoLogger.java:61 - Started ApiGateWayApplication in 17.544 seconds (JVM running for 19.681)
+2020-12-21 19:27:40,477 [SpringContextShutdownHook] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskScheduler] ExecutorConfigurationSupport.java:218 - Shutting down ExecutorService 'Nacos-Watch-Task-Scheduler'
+2020-12-21 19:27:41,509 [SpringContextShutdownHook] INFO  [c.a.cloud.nacos.registry.NacosServiceRegistry] NacosServiceRegistry.java:86 - De-registering from Nacos Server now...
+2020-12-21 19:27:41,534 [SpringContextShutdownHook] INFO  [c.a.cloud.nacos.registry.NacosServiceRegistry] NacosServiceRegistry.java:106 - De-registration finished.
