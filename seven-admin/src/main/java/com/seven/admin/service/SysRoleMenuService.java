@@ -1,5 +1,7 @@
 package com.seven.admin.service;
 
+import java.util.List;
+
 /**
  * 角色菜单表
  *
@@ -21,6 +23,6 @@ public interface SysRoleMenuService {
      * @param menuIds
      * @return
      */
-    int addRoleMenu(Integer roleId, Integer[] menuIds);
+    int addRoleMenu(Integer roleId, List<Integer> menuIds);
 }
 

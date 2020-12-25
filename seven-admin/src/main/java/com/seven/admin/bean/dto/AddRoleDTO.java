@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author v_chendongdong
@@ -29,5 +30,5 @@ public class AddRoleDTO {
 
     /** 菜单组 */
     @ApiModelProperty(value = "所拥有的菜单")
-    private Integer[] menuIds;
+    private List<Integer> menuIds;
 }

@@ -64,6 +64,6 @@ private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "email")
     private String email;
 
-    @ApiModelProperty(value = "是否删除  0：有效  0：停用")
+    @ApiModelProperty(value = "是否有效  0：有效  0：停用")
     private Integer status;
 }

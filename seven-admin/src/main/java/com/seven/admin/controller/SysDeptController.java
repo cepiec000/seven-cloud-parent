@@ -1,9 +1,6 @@
 package com.seven.admin.controller;
 
-import com.seven.admin.bean.dto.AddDeptDTO;
-import com.seven.admin.bean.dto.AddPostDTO;
-import com.seven.admin.bean.dto.EditDeptDTO;
-import com.seven.admin.bean.dto.EditPostDTO;
+import com.seven.admin.bean.dto.*;
 import com.seven.admin.bean.query.DeptQuery;
 import com.seven.admin.bean.vo.DeptVO;
 import com.seven.admin.service.SysDeptService;
@@ -16,6 +13,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author v_chendongdong
@@ -59,5 +58,13 @@ public class SysDeptController {
     public ApiResponse<Boolean> delete(@RequestParam("deptId") Integer deptId) {
         Boolean rest = sysDeptService.delete(deptId);
         return ApiResponse.success(rest);
+    }
+
+    @GetMapping("/deptZtree")
+    @RequiresPermissions("system:dept:ztree")
+    @ApiOperation(value = "部门树")
+    public ApiResponse<List<ZtreeDTO>> deptTree(){
+        List<ZtreeDTO> tree=sysDeptService.queryDeptTree();
+        return ApiResponse.success(tree);
     }
 }

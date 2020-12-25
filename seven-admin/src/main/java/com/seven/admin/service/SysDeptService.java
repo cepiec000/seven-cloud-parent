@@ -2,6 +2,7 @@ package com.seven.admin.service;
 
 import com.seven.admin.bean.dto.AddDeptDTO;
 import com.seven.admin.bean.dto.EditDeptDTO;
+import com.seven.admin.bean.dto.ZtreeDTO;
 import com.seven.admin.bean.entity.SysDeptEntity;
 import com.seven.admin.bean.query.DeptQuery;
 import com.seven.admin.bean.vo.DeptVO;
@@ -68,5 +69,18 @@ public interface SysDeptService {
      * @return
      */
     List<SysDeptEntity> queryChildrenByParentId(Integer deptId);
+
+    /**
+     * 加载部门树结构
+     * @return
+     */
+    List<ZtreeDTO> queryDeptTree();
+
+    /**
+     * 获取部门下 有效子部门树
+     * @param deptId
+     * @return
+     */
+    int countValidChildrenDeptById(Integer deptId);
 }
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.seven.admin.bean.dto.AddDeptDTO;
 import com.seven.admin.bean.dto.EditDeptDTO;
+import com.seven.admin.bean.dto.ZtreeDTO;
 import com.seven.admin.bean.entity.SysDeptEntity;
 import com.seven.admin.bean.query.DeptQuery;
 import com.seven.admin.bean.vo.DeptVO;
@@ -194,5 +195,57 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDeptEntity
         queryWrapper.eq("parent_id", deptId);
         queryWrapper.eq("del_flag", DeleteEnum.NO_DELETE.getCode());
         return deptMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<ZtreeDTO> queryDeptTree() {
+        QueryWrapper<SysDeptEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("del_flag", DeleteEnum.NO_DELETE.getCode());
+        List<SysDeptEntity> allDept = deptMapper.selectList(queryWrapper);
+        return initZtree(allDept);
+    }
+
+    @Override
+    public int countValidChildrenDeptById(Integer deptId) {
+        QueryWrapper<SysDeptEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("del_flag", DeleteEnum.NO_DELETE.getCode());
+        queryWrapper.eq("status", StatusEnum.VALID.getCode());
+        return deptMapper.selectCount(queryWrapper);
+    }
+
+    /**
+     * 构建部门树
+     *
+     * @param allDept
+     * @return
+     */
+    public List<ZtreeDTO> initZtree(List<SysDeptEntity> allDept) {
+        return initZtree(allDept, null);
+    }
+
+    /**
+     * 构建部门树
+     *
+     * @param deptList
+     * @param roleDepts
+     * @return
+     */
+    public List<ZtreeDTO> initZtree(List<SysDeptEntity> deptList, List<String> roleDepts) {
+        List<ZtreeDTO> tree = new ArrayList<>();
+        boolean isCheck = CollectionUtils.isEmpty(roleDepts);
+        deptList.forEach(dept -> {
+            if (dept.getStatus().equals(StatusEnum.VALID.getCode())) {
+                ZtreeDTO ztree = new ZtreeDTO();
+                ztree.setId(dept.getDeptId());
+                ztree.setPId(dept.getParentId());
+                ztree.setName(dept.getName());
+                ztree.setTitle(dept.getName());
+                if (!isCheck) {
+                    ztree.setChecked(roleDepts.contains(dept.getDeptId() + dept.getName()));
+                }
+                tree.add(ztree);
+            }
+        });
+        return tree;
     }
 }

@@ -38,7 +38,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    public int addRoleMenu(Integer roleId, Integer[] menuIds) {
+    public int addRoleMenu(Integer roleId, List<Integer> menuIds ) {
         if (roleId == null || menuIds == null) {
             return 0;
         }
