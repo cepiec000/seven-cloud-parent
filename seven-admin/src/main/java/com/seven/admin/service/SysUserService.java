@@ -117,5 +117,11 @@ public interface SysUserService {
      * @return
      */
     PageInfo<UserVO> unassignedRoleList(UserQuery role);
+
+    /**
+     * 查询该部门下有多少用户
+     * @return
+     */
+    int checkUserByDeptId(Integer deptId);
 }
 

@@ -1,8 +1,8 @@
 package com.seven.admin.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.seven.admin.bean.entity.SysPostEntity;
+import com.seven.comm.core.config.SevenBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @version 1.0
  */
 @Mapper
-public interface SysPostMapper extends BaseMapper<SysPostEntity> {
+public interface SysPostMapper extends SevenBaseMapper<SysPostEntity> {
 
 
 }

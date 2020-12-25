@@ -1,6 +1,13 @@
 package com.seven.admin.service;
 
 
+import com.seven.admin.bean.dto.AddUserDTO;
+import com.seven.admin.bean.dto.EditUserDTO;
+import com.seven.admin.bean.entity.SysUserPostEntity;
+import com.seven.admin.bean.query.PostQuery;
+import com.seven.admin.bean.vo.UserVO;
+import com.seven.comm.core.page.PageInfo;
+
 import java.util.List;
 
 /**
@@ -26,5 +33,12 @@ public interface SysUserPostService {
      * @return
      */
     int addUserPost(Integer userId, List<Integer> postIds);
+
+    /**
+     * 根据 岗位查询
+     * @param postId
+     * @return
+     */
+    List<SysUserPostEntity> queryByPostId(Integer postId);
 }
 

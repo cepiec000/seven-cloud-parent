@@ -295,4 +295,12 @@ public class SysUserServiceImpl implements SysUserService {
         pageInfo.setSize(user.getSize());
         return pageInfo;
     }
+
+    @Override
+    public int checkUserByDeptId(Integer deptId) {
+        QueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dept_id", deptId);
+        queryWrapper.eq("del_flag", DeleteEnum.NO_DELETE.getCode());
+        return userMapper.selectCount(queryWrapper);
+    }
 }

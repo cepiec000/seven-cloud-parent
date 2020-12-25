@@ -1,17 +1,10 @@
-package com.seven.admin.bean.entity;
+package com.seven.admin.bean.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,19 +16,17 @@ import java.util.Date;
  * @date 2020-12-24 14:00:27
  * @version 1.0
  */
-@TableName("sys_post")
 @Getter
 @Setter
 @ApiModel(description = "岗位信息表")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SysPostEntity implements Serializable {
+public class PostVO implements Serializable {
 
 private static final long serialVersionUID = 1L;
 
 
-    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "岗位ID")
     private Long postId;
 
@@ -49,7 +40,7 @@ private static final long serialVersionUID = 1L;
     private Integer postSort;
 
     @ApiModelProperty(value = "状态（0正常 1停用）")
-    private Integer status;
+    private String status;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
