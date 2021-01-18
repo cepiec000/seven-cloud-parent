@@ -1,13 +1,13 @@
 package com.seven.code.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.seven.code.entity.DatabaseEntity;
 import com.seven.code.service.GeneratorService;
+import com.seven.code.utils.GenUtils;
 import com.seven.code.utils.Page;
 import com.seven.code.utils.Query;
 import com.seven.code.utils.Result;
-import com.seven.comm.core.response.ApiResponse;
+import com.seven.mybatis.pagehelper.PageTools;
+import com.seven.mybatis.pagehelper.bean.PageResult;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,26 +31,26 @@ import java.util.Map;
 public class GeneratorController {
     @Autowired
     private GeneratorService generatorService;
+
     /**
      * 列表
      */
     @GetMapping("/list")
-    public Result list(@RequestParam Map<String, Object> params){
+    public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
         Query query = new Query(params);
-        PageHelper.startPage(query.getPage(),query.getLimit());
+        PageTools.startPage(query.getPage(), query.getLimit());
         List<Map<String, Object>> list = generatorService.queryList(query);
-        PageInfo info = new PageInfo<>(list);
-        Page page=new Page(list,info.getTotal(),info.getPageSize(),info.getPageNum());
-        return Result.ok().put("page",page);
+        PageResult info = new PageResult(list);
+        Page page = new Page(info.getRows(), info.getTotal(), info.getSize(), info.getPageNo());
+        return Result.ok().put("page", page);
     }
 
     @GetMapping("/database/list")
-    public Result databaseList(){
+    public Result databaseList() {
         List<DatabaseEntity> databaseEntities = generatorService.queryDatabase();
-        return Result.ok().put("list",databaseEntities);
+        return Result.ok().put("list", databaseEntities);
     }
-
 
 
     /**
@@ -59,7 +59,7 @@ public class GeneratorController {
     @GetMapping("/code")
     public void code(String databaseName, String tables,
                      HttpServletResponse response) throws IOException {
-        byte[] data = generatorService.generatorCode(databaseName,tables.split(","));
+        byte[] data = generatorService.generatorCode(databaseName, tables.split(","));
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"code.zip\"");
         response.addHeader("Content-Length", "" + data.length);

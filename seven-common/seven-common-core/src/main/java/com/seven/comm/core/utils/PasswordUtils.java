@@ -1,6 +1,8 @@
 package com.seven.comm.core.utils;
 
 import com.seven.comm.core.constant.CommonConst;
+import com.seven.comm.core.utils.sign.AesUtils;
+import com.seven.comm.core.utils.sign.Md5Utils;
 
 public class PasswordUtils {
     /**

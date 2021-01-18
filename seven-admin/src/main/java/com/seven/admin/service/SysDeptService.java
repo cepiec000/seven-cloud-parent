@@ -1,86 +1,113 @@
 package com.seven.admin.service;
 
-import com.seven.admin.bean.dto.AddDeptDTO;
-import com.seven.admin.bean.dto.EditDeptDTO;
-import com.seven.admin.bean.dto.ZtreeDTO;
 import com.seven.admin.bean.entity.SysDeptEntity;
-import com.seven.admin.bean.query.DeptQuery;
-import com.seven.admin.bean.vo.DeptVO;
-import com.seven.comm.core.page.PageInfo;
+import com.seven.admin.bean.query.SysDeptQuery;
+import com.seven.admin.bean.vo.TreeSelect;
 
 import java.util.List;
 
 /**
- * 部门管理
+ * 部门表
  *
  * @author chendongdong
- * @date 2020-12-21 15:15:48
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 public interface SysDeptService {
+    /**
+     * 查询部门管理数据
+     *
+     * @param dept 部门信息
+     * @return 部门信息集合
+     */
+    public List<SysDeptEntity> selectDeptList(SysDeptQuery dept);
 
     /**
-     * 获取部门列表
-     * @param deptQuery
-     * @return
+     * 构建前端所需要树结构
+     *
+     * @param depts 部门列表
+     * @return 树结构列表
      */
-    PageInfo<DeptVO> queryByPage(DeptQuery deptQuery);
-
+    public List<SysDeptEntity> buildDeptTree(List<SysDeptEntity> depts);
 
     /**
-     * 删除部门
-     * @param deptId
-     * @return
+     * 构建前端所需要下拉树结构
+     *
+     * @param depts 部门列表
+     * @return 下拉树结构列表
      */
-    Boolean delete(Integer deptId);
+    public List<TreeSelect> buildDeptTreeSelect(List<SysDeptEntity> depts);
 
     /**
-     * 添加部门
-     * @param dept
-     * @return
+     * 根据角色ID查询部门树信息
+     *
+     * @param roleId 角色ID
+     * @return 选中部门列表
      */
-    Boolean addDept(AddDeptDTO dept);
+    public List<Integer> selectDeptListByRoleId(Long roleId);
 
     /**
-     * 修改部门
-     * @param dept
-     * @return
+     * 根据部门ID查询信息
+     *
+     * @param deptId 部门ID
+     * @return 部门信息
      */
-    Boolean updateDept(EditDeptDTO dept);
+    public SysDeptEntity selectDeptById(Long deptId);
 
     /**
-     * 根据部门名称 查询部门
-     * @param deptName
-     * @return
+     * 根据ID查询所有子部门（正常状态）
+     *
+     * @param deptId 部门ID
+     * @return 子部门数
      */
-    SysDeptEntity checkDeptNameUnique(String deptName);
-
-
-    /**
-     * 根据ID 获取部门
-     * @param deptId
-     * @return
-     */
-    SysDeptEntity get(Integer deptId);
+    public int selectNormalChildrenDeptById(Long deptId);
 
     /**
-     * 获取子级部门
-     * @param deptId
-     * @return
+     * 是否存在部门子节点
+     *
+     * @param deptId 部门ID
+     * @return 结果
      */
-    List<SysDeptEntity> queryChildrenByParentId(Integer deptId);
+    public boolean hasChildByDeptId(Long deptId);
 
     /**
-     * 加载部门树结构
-     * @return
+     * 查询部门是否存在用户
+     *
+     * @param deptId 部门ID
+     * @return 结果 true 存在 false 不存在
      */
-    List<ZtreeDTO> queryDeptTree();
+    public boolean checkDeptExistUser(Long deptId);
 
     /**
-     * 获取部门下 有效子部门树
-     * @param deptId
-     * @return
+     * 校验部门名称是否唯一
+     *
+     * @param dept 部门信息
+     * @return 结果
      */
-    int countValidChildrenDeptById(Integer deptId);
+    public String checkDeptNameUnique(SysDeptEntity dept);
+
+    /**
+     * 新增保存部门信息
+     *
+     * @param dept 部门信息
+     * @return 结果
+     */
+    public int insertDept(SysDeptEntity dept);
+
+    /**
+     * 修改保存部门信息
+     *
+     * @param dept 部门信息
+     * @return 结果
+     */
+    public int updateDept(SysDeptEntity dept);
+
+    /**
+     * 删除部门管理信息
+     *
+     * @param deptId 部门ID
+     * @return 结果
+     */
+    public int deleteDeptById(Long deptId);
 }
 

@@ -1,66 +1,42 @@
 package com.seven.admin.service;
 
-import com.seven.admin.bean.entity.SysUserRoleEntity;
-
-import java.util.List;
+import com.seven.admin.bean.entity.SysUserEntity;
 
 /**
- * 用户角色表
+ * 用户和角色关联表
  *
  * @author chendongdong
- * @date 2020-12-21 15:15:48
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 public interface SysUserRoleService {
 
     /**
-     * 根据用户ID 获取所有 角色ID
+     * 批量新增
+     * @param user
+     * @return
+     */
+    int insertUserRole(SysUserEntity user);
+
+    /**
+     * 根据用户ID 删除
      * @param userId
      * @return
      */
-    List<Integer> queryRoleIdByUserId(Integer userId);
+    int deleteByUserId(Long userId);
 
     /**
-     * 根据用户ID 获取用户所有角色
-     * @param userId
+     * 批量删除
+     * @param userIds
      * @return
      */
-    List<SysUserRoleEntity> queryRoleByUserId(Integer userId);
+    int deleteByUserIds(Long[] userIds);
 
     /**
-     * 批量新增用户角色
-     * @param userId
-     * @param roleIds
-     * @return
-     */
-    int addUserRole(Integer userId,List<Integer> roleIds);
-
-    /**
-     * 删除用户角色
-     * @param id
-     * @return
-     */
-    int deleteByUserId(Integer id);
-
-    /**
-     * 查看角色都跟那些用戶管理
+     * 根据角色ID 统计
      * @param roleId
      * @return
      */
-    List<SysUserRoleEntity> queryUserByRoleId(Integer roleId);
-
-    /**
-     * 批量新增用户角色
-     * @param list
-     * @return
-     */
-    int batchSaveUserRole(List<SysUserRoleEntity> list);
-
-    /**
-     * 删除用户角色
-     * @param userRoleEntity
-     * @return
-     */
-    Boolean delete(SysUserRoleEntity userRoleEntity);
+    int countByRoleId(Long roleId);
 }
 

@@ -3,10 +3,8 @@ package com.seven.admin.bean.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -20,7 +18,7 @@ import java.util.Date;
  * 岗位信息表
  * 
  * @author chendongdong
- * @date 2020-12-24 14:00:27
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 @TableName("sys_post")
@@ -49,10 +47,16 @@ private static final long serialVersionUID = 1L;
     private Integer postSort;
 
     @ApiModelProperty(value = "状态（0正常 1停用）")
-    private Integer status;
+    private String status;
+
+    @ApiModelProperty(value = "创建者")
+    private String createBy;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
+
+    @ApiModelProperty(value = "更新者")
+    private String updateBy;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;

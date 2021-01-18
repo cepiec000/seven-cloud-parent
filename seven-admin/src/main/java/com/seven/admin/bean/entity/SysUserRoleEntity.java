@@ -1,36 +1,40 @@
 package com.seven.admin.bean.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
 
 import java.io.Serializable;
 
 /**
- * 用户角色表
- * 
+ * 用户和角色关联表
+ *
  * @author chendongdong
- * @date 2020-12-21 15:15:48
  * @version 1.0
+ * @date 2021-01-04 10:43:24
  */
 @TableName("sys_user_role")
 @Getter
 @Setter
-@ApiModel(description = "用户角色表")
+@ApiModel(description = "用户和角色关联表")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class SysUserRoleEntity implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
+    @TableField
     @ApiModelProperty(value = "用户ID")
-    private Integer userId;
+    private Long userId;
 
+    @TableField
     @ApiModelProperty(value = "角色ID")
-    private Integer roleId;
+    private Long roleId;
 }

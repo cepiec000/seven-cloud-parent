@@ -9,6 +9,8 @@ package com.seven.comm.core.response;
 public enum StatCode implements ErrorCode {
     SUCCESS(1, "SUCCESS"),
     FAILED(-1, "FAILED"),
+    TOKEN_ERROR(90005, "TOKEN有误"),
+    NO_LOGIN(302, "未登录，请先登录"),
     PARAMETER_ERROR(90001, "参数异常"),
     MISSING_REQUIRED_PARAMETER(20002, "缺少必填参数"),
     UNKNOWN_EXCEPTION(20003, "未知异常,请联系管理员"),

@@ -31,9 +31,6 @@
 		</div>
 		<a class="btn btn-default" @click="query">查询</a>
 
-		<div class="form-group col-sm-2">
-			<input type="text" class="form-control" v-model="q.dsName" @keyup.enter="generator" placeholder="数据源分包,例如：cms">
-		</div>
 		<a class="btn btn-primary" @click="generator"><i class="fa fa-file-code-o"></i>&nbsp;生成代码</a>
 	</div>
     <table id="jqGrid"></table>

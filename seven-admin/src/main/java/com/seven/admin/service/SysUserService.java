@@ -1,127 +1,171 @@
 package com.seven.admin.service;
 
-import com.seven.admin.bean.dto.AddUserDTO;
-import com.seven.admin.bean.dto.EditUserDTO;
-import com.seven.admin.bean.dto.UserRoleDTO;
-import com.seven.admin.bean.query.RoleQuery;
-import com.seven.admin.bean.query.UserQuery;
-import com.seven.admin.bean.vo.UserVO;
 import com.seven.admin.bean.entity.SysUserEntity;
-import com.seven.comm.core.page.PageInfo;
+import com.seven.admin.bean.query.SysUserQuery;
+
+import java.util.List;
 
 /**
- * 用户表
+ * 用户信息表
  *
  * @author chendongdong
- * @date 2020-12-21 15:15:48
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 public interface SysUserService {
 
     /**
-     * 通过用户ID 获取用户
+     * 获取部门下 人数
+     * @param deptId
+     * @return
+     */
+    int selectCountByDeptId(Long deptId);
+
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    public List<SysUserEntity> selectUserList(SysUserQuery user);
+
+    /**
+     * 通过用户名查询用户
+     *
+     * @param userName 用户名
+     * @return 用户对象信息
+     */
+    public SysUserEntity selectUserByUserName(String userName);
+
+    /**
+     * 通过用户ID查询用户
+     *
      * @param userId 用户ID
-     * @return 用户对象
+     * @return 用户对象信息
      */
-    SysUserEntity get(Integer userId);
+    public SysUserEntity selectUserById(Long userId);
 
     /**
-     * 用户名称 获取用户
-     * @param username
-     * @return
+     * 根据用户ID查询用户所属角色组
+     *
+     * @param userName 用户名
+     * @return 结果
      */
-    SysUserEntity getByUserName(String username);
+    public String selectUserRoleGroup(String userName);
 
     /**
-     * 账号密码获取用户
-     * @param username
-     * @param password
-     * @return
+     * 根据用户ID查询用户所属岗位组
+     *
+     * @param userName 用户名
+     * @return 结果
      */
-    SysUserEntity login(String username, String password);
+    public String selectUserPostGroup(String userName);
 
     /**
-     * 获取用户列表
-     * @param user
-     * @return
+     * 校验用户名称是否唯一
+     *
+     * @param userName 用户名称
+     * @return 结果
      */
-    PageInfo<UserVO> queryUserVoList(UserQuery user);
+    public String checkUserNameUnique(String userName);
 
     /**
-     * 添加用户
-     * @param user
-     * @return
+     * 校验手机号码是否唯一
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    Boolean addUser(AddUserDTO user);
+    public String checkPhoneUnique(SysUserEntity user);
 
     /**
-     * 判断用户名是否存在
-     * @param username
-     * @return
+     * 校验email是否唯一
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    SysUserEntity checkLoginNameUnique(String username);
+    public String checkEmailUnique(SysUserEntity user);
 
     /**
-     * 判断手机号是否重复
-     * @param phone
-     * @return
+     * 校验用户是否允许操作
+     *
+     * @param user 用户信息
      */
-    SysUserEntity checkPhoneUnique(String phone);
+    public void checkUserAllowed(SysUserEntity user);
 
     /**
-     * 判断手机号是否重复
-     * @param email
-     * @return
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    SysUserEntity checkEmailUnique(String email);
+    public int insertUser(SysUserEntity user);
 
     /**
-     * 修改用户
-     * @param user
-     * @return
+     * 修改用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    Boolean updateUser(EditUserDTO user);
-
-    /**
-     * 重置用户密码
-     * @param userId
-     * @return
-     */
-    Boolean resetPwd(Integer userId);
-
-    /**
-     * 删除 一个 或 多个用户
-     * @param ids
-     * @return
-     */
-    Boolean delete(Integer [] ids);
-
-    /**
-     * 设置用户 角色
-     * @param roleDTO
-     * @return
-     */
-    Boolean setAuthRole(UserRoleDTO roleDTO);
+    public int updateUser(SysUserEntity user);
 
     /**
      * 修改用户状态
-     * @param userId
-     * @param lockFlag
-     * @return
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    Boolean changeLockFlag(Integer userId, Integer lockFlag);
+    public int updateUserStatus(SysUserEntity user);
 
     /**
-     * 为分配 角色的用户列表
-     * @param role
-     * @return
+     * 修改用户基本信息
+     *
+     * @param user 用户信息
+     * @return 结果
      */
-    PageInfo<UserVO> unassignedRoleList(UserQuery role);
+    public int updateUserProfile(SysUserEntity user);
 
     /**
-     * 查询该部门下有多少用户
-     * @return
+     * 修改用户头像
+     *
+     * @param userName 用户名
+     * @param avatar 头像地址
+     * @return 结果
      */
-    int checkUserByDeptId(Integer deptId);
+    public boolean updateUserAvatar(String userName, String avatar);
+
+    /**
+     * 重置用户密码
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int resetPwd(SysUserEntity user);
+
+    /**
+     * 重置用户密码
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @return 结果
+     */
+    public int resetUserPwd(String userName, String password);
+
+    /**
+     * 通过用户ID删除用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    public int deleteUserById(Long userId);
+
+    /**
+     * 批量删除用户信息
+     *
+     * @param userIds 需要删除的用户ID
+     * @return 结果
+     */
+    public int deleteUserByIds(Long[] userIds);
+
+
 }
 

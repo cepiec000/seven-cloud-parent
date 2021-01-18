@@ -1,28 +1,35 @@
 package com.seven.admin.service;
 
-import java.util.List;
+import com.seven.admin.bean.entity.SysRoleEntity;
 
 /**
- * 角色菜单表
+ * 角色和菜单关联表
  *
  * @author chendongdong
- * @date 2020-12-21 15:15:48
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 public interface SysRoleMenuService {
 
     /**
-     * 删除菜单 根据 角色Id
-     * @param roleId
-     */
-    void deleteByRoleId(Integer roleId);
-
-    /**
-     * 添加角色 菜单
-     * @param roleId
-     * @param menuIds
+     * 根据menuId 统计
+     * @param menuId
      * @return
      */
-    int addRoleMenu(Integer roleId, List<Integer> menuIds);
+    int countByMenuId(Long menuId);
+
+    /**
+     * 批量新增 角色菜单
+     * @param role
+     * @return
+     */
+    int insertRoleMenu(SysRoleEntity role);
+
+    /**
+     * 根据 角色ID 删除关联
+     * @param roleId
+     * @return
+     */
+    int deleteByRoleId(Long roleId);
 }
 

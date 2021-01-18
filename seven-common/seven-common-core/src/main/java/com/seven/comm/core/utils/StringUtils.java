@@ -2,7 +2,7 @@ package com.seven.comm.core.utils;
 
 import java.util.*;
 
-public class StringUtils extends org.apache.commons.lang3.StringUtils{
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
     /**
      * 空字符串
      */
@@ -380,4 +380,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
         return sb.toString();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T cast(Object obj) {
+        return (T) obj;
+    }
 }

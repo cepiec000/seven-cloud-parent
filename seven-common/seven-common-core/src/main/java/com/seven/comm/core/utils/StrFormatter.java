@@ -1,5 +1,7 @@
 package com.seven.comm.core.utils;
 
+import com.seven.comm.core.text.Convert;
+
 public class StrFormatter {
     public static final String EMPTY_JSON = "{}";
     public static final char C_BACKSLASH = '\\';
@@ -44,7 +46,7 @@ public class StrFormatter {
                     if (delimIndex > 1 && strPattern.charAt(delimIndex - 2) == C_BACKSLASH) {
                         // 转义符之前还有一个转义符，占位符依旧有效
                         sbuf.append(strPattern, handledPosition, delimIndex - 1);
-                        sbuf.append(ConvertUtil.utf8Str(argArray[argIndex]));
+                        sbuf.append(Convert.utf8Str(argArray[argIndex]));
                         handledPosition = delimIndex + 2;
                     } else {
                         // 占位符被转义
@@ -56,7 +58,7 @@ public class StrFormatter {
                 } else {
                     // 正常占位符
                     sbuf.append(strPattern, handledPosition, delimIndex);
-                    sbuf.append(ConvertUtil.utf8Str(argArray[argIndex]));
+                    sbuf.append(Convert.utf8Str(argArray[argIndex]));
                     handledPosition = delimIndex + 2;
                 }
             }

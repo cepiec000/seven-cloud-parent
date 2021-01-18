@@ -38,7 +38,7 @@ $(function () {
 
 $(function () {
     $.getJSON('sys/generator/database/list', null, function (data) {
-        $.each(data.data, function (key, value) {
+        $.each(data.list, function (key, value) {
             $("#dropdown").append('<option value="' + value.databaseName + '">' + value.databaseName + '</option>');
         });
     });

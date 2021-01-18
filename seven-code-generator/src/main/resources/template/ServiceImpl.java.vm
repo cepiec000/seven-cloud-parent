@@ -1,7 +1,8 @@
 package ${packageServiceImpl};
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ${packageService}.${className}Mapper;
+import ${packageMapper}.${className}Mapper;
 import ${packageService}.${className}Service;
 import lombok.extern.slf4j.Slf4j;
 

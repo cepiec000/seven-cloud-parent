@@ -11,16 +11,16 @@
         <module>seven-common</module>
         <module>seven-admin</module>
         <module>seven-code-generator</module>
+        <module>seven-spring-file-stater</module>
     </modules>
     <name>seven-cloud-parent</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.6.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <dynamic-ds.version>3.2.0</dynamic-ds.version>
         <jasypt.version>3.0.3</jasypt.version>
@@ -29,10 +29,11 @@
         <shiro-spring.version>1.7.0</shiro-spring.version>
         <swagger.version>3.0.0</swagger.version>
         <seven-common-core.version>1.0.0-SNAPSHOT</seven-common-core.version>
+        <seven-file-starter.version>1.0.0-SNAPSHOT</seven-file-starter.version>
         <fastjson.version>1.2.75</fastjson.version>
         <hikari-cp.version>2.9.0</hikari-cp.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <shiro-ehcache.version>1.7.0</shiro-ehcache.version>
+        <jwt.version>0.9.1</jwt.version>
     </properties>
 
     <dependencies>
@@ -74,11 +75,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <!--zipkin依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
     </dependencies>
 

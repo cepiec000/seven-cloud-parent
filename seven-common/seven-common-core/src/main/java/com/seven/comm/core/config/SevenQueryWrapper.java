@@ -2,6 +2,7 @@ package com.seven.comm.core.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.seven.comm.core.enums.BetweenEnum;
+import com.seven.comm.core.page.BaseQuery;
 import lombok.val;
 
 import java.util.Collection;
@@ -58,6 +59,7 @@ public class SevenQueryWrapper<T> extends QueryWrapper<T> {
         }
         return this;
     }
+
     public SevenQueryWrapper<T> sin(String column, Collection val) {
         if (Objects.nonNull(val) && val.size() > 0) {
             this.in(column, val);
@@ -65,27 +67,45 @@ public class SevenQueryWrapper<T> extends QueryWrapper<T> {
         return this;
     }
 
+    public SevenQueryWrapper<T> dateBetween(String column, BaseQuery query, BetweenEnum betweenEnum) {
+        return dateBetween(column, query.getBeginTime(), query.getEndTime(), betweenEnum);
+    }
+
     public SevenQueryWrapper<T> dateBetween(String column, Date start, Date end, BetweenEnum betweenEnum) {
         if (Objects.nonNull(column) && Objects.nonNull(betweenEnum)) {
-            if (start != null) {
-                switch (betweenEnum) {
-                    case NO_CONTAIN:
+            switch (betweenEnum) {
+                case NO_CONTAIN:
+                    if (start != null) {
                         this.gt(column, start);
+                    }
+                    if (end != null) {
                         this.lt(column, end);
-                        break;
-                    case ALL_CONTAIN:
+                    }
+                    break;
+                case ALL_CONTAIN:
+                    if (start != null) {
                         this.ge(column, start);
+                    }
+                    if (end != null) {
                         this.le(column, end);
-                        break;
-                    case LEFT_CONTAIN:
+                    }
+                    break;
+                case LEFT_CONTAIN:
+                    if (start != null) {
                         this.ge(column, start);
+                    }
+                    if (end != null) {
                         this.lt(column, end);
-                        break;
-                    case RIGHT_CONTAIN:
+                    }
+                    break;
+                case RIGHT_CONTAIN:
+                    if (start != null) {
                         this.gt(column, start);
+                    }
+                    if (end != null) {
                         this.le(column, end);
-                        break;
-                }
+                    }
+                    break;
             }
         }
         return this;

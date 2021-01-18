@@ -1,44 +1,42 @@
 package com.seven.admin.service;
 
-
-import com.seven.admin.bean.dto.AddUserDTO;
-import com.seven.admin.bean.dto.EditUserDTO;
-import com.seven.admin.bean.entity.SysUserPostEntity;
-import com.seven.admin.bean.query.PostQuery;
-import com.seven.admin.bean.vo.UserVO;
-import com.seven.comm.core.page.PageInfo;
-
-import java.util.List;
+import com.seven.admin.bean.entity.SysUserEntity;
 
 /**
  * 用户与岗位关联表
  *
  * @author chendongdong
- * @date 2020-12-24 14:00:27
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 public interface SysUserPostService {
 
     /**
-     * 根据用户删除用户 与岗位关联
-     * @param id
+     * 批量新增
+     * @param user
      * @return
      */
-    int deleteByUserId(Integer id);
+    int insertUserPost(SysUserEntity user);
 
     /**
-     * 批量添加用户岗位
+     * 根据用户ID 删除
      * @param userId
-     * @param postIds
      * @return
      */
-    int addUserPost(Integer userId, List<Integer> postIds);
+    int deleteByUserId(Long userId);
 
     /**
-     * 根据 岗位查询
+     * 批量删除
+     * @param userIds
+     * @return
+     */
+    int deleteByUserIds(Long[] userIds);
+
+    /**
+     * 根据岗位ID 统计
      * @param postId
      * @return
      */
-    List<SysUserPostEntity> queryByPostId(Integer postId);
+    int countByPostId(Long postId);
 }
 

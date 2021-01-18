@@ -40,7 +40,7 @@ private static final long serialVersionUID = 1L;
 #foreach ($column in $columns)
 
 #if($column.columnName == $pk.columnName)
-    @TableId#if($column.attrType == 'String')(type = IdType.UUID)#end
+    @TableId#if($column.attrType == 'String')(type = IdType.UUID)#else(type = IdType.AUTO)#end
 
 #end
     @ApiModelProperty(value = "$column.comments")

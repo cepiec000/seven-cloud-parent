@@ -1,35 +1,20 @@
 package com.seven.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.seven.admin.bean.dto.AddPostDTO;
-import com.seven.admin.bean.dto.AddUserDTO;
-import com.seven.admin.bean.dto.EditPostDTO;
-import com.seven.admin.bean.dto.EditUserDTO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.seven.admin.bean.entity.SysPostEntity;
-import com.seven.admin.bean.entity.SysUserEntity;
-import com.seven.admin.bean.query.PostQuery;
-import com.seven.admin.bean.vo.PostVO;
-import com.seven.admin.bean.vo.UserVO;
-import com.seven.admin.constant.AdminStatCode;
-import com.seven.admin.enums.DeleteEnum;
-import com.seven.admin.enums.UserLockEnum;
+import com.seven.admin.bean.query.SysPostQuery;
+import com.seven.admin.constant.UserConstants;
 import com.seven.admin.mapper.SysPostMapper;
+import com.seven.admin.service.SysPostService;
 import com.seven.admin.service.SysUserPostService;
 import com.seven.comm.core.config.SevenQueryWrapper;
-import com.seven.comm.core.enums.BetweenEnum;
 import com.seven.comm.core.execption.SevenException;
-import com.seven.comm.core.page.Page;
-import com.seven.comm.core.page.PageInfo;
-import org.springframework.beans.BeanUtils;
+import com.seven.comm.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.seven.admin.service.SysPostService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -38,120 +23,110 @@ import java.util.List;
  *
  * @author chendongdong
  * @version 1.0
- * @date 2020-12-24 14:00:27
+ * @date 2021-01-04 10:43:24
  */
 
 @Slf4j
 @Service("sysPostService")
-public class SysPostServiceImpl implements SysPostService {
-
+public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPostEntity> implements SysPostService {
     @Autowired
-    private SysPostMapper postMapper;
+    private SysPostMapper sysPostMapper;
 
     @Autowired
     private SysUserPostService userPostService;
 
     @Override
-    public PageInfo<PostVO> queryVoList(PostQuery post) {
-        PageInfo<PostVO> pageInfo = new PageInfo<>();
+    public List<SysPostEntity> selectPostsByUserName(String userName) {
+        return sysPostMapper.selectByUserName(userName);
+    }
 
+    @Override
+    public List<SysPostEntity> selectPostList(SysPostQuery post) {
         SevenQueryWrapper<SysPostEntity> queryWrapper = new SevenQueryWrapper<>();
-        queryWrapper.slikeLeft("post_name", post.getPostName());
-        queryWrapper.slikeLeft("post_code", post.getPostCode());
-        queryWrapper.dateBetween("create_time", post.getBegin(), post.getEnd(), BetweenEnum.ALL_CONTAIN);
-
-        Page<SysPostEntity> page = postMapper.selectByPage(queryWrapper, post.getPageNo(), post.getSize());
-        List<SysPostEntity> list = page.getRows();
-        if (CollectionUtils.isEmpty(list)) {
-            return pageInfo;
-        }
-        List<PostVO> nList = new ArrayList<>(list.size());
-        list.forEach(item -> {
-            PostVO postVO = new PostVO();
-            BeanUtils.copyProperties(item, postVO);
-            nList.add(postVO);
-        });
-        pageInfo.setRows(nList);
-        return pageInfo;
+        queryWrapper.slike("post_code", post.getPostCode());
+        queryWrapper.seq("status", post.getStatus());
+        queryWrapper.slike("post_name", post.getPostName());
+        return sysPostMapper.selectList(queryWrapper);
     }
 
     @Override
-    public Boolean addPost(AddPostDTO post) {
-        if (checkPostNameUnique(post.getPostName()) != null) {
-            throw new SevenException(AdminStatCode.POST_NAME_DUPLICATE.getMsg());
-        }
-        if (checkPostCodeUnique(post.getPostCode()) != null) {
-            throw new SevenException(AdminStatCode.POST_CODE_DUPLICATE.getMsg());
-        }
-        SysPostEntity postEntity = new SysPostEntity();
-        BeanUtils.copyProperties(post, postEntity);
-        postEntity.setCreateTime(new Date());
-        postEntity.setUpdateTime(new Date());
-        postEntity.setStatus(DeleteEnum.NO_DELETE.getCode());
-        postEntity.setPostSort(queryCountPost());
-        if (postMapper.insert(postEntity) == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    public int queryCountPost() {
-        return postMapper.selectCount(new QueryWrapper<>());
+    public List<SysPostEntity> selectPostAll() {
+        return selectPostList(new SysPostQuery());
     }
 
     @Override
-    public Boolean updatePost(EditPostDTO post) {
-        SysPostEntity postEntity = checkPostNameUnique(post.getPostName());
-        if (postEntity != null && !postEntity.getPostId().equals(post.getPostId())) {
-            throw new SevenException(AdminStatCode.POST_NAME_DUPLICATE.getMsg());
-        }
-        postEntity = checkPostCodeUnique(post.getPostCode());
-        if (postEntity != null && !postEntity.getPostId().equals(post.getPostId())) {
-            throw new SevenException(AdminStatCode.POST_CODE_DUPLICATE.getMsg());
-        }
-        BeanUtils.copyProperties(post, postEntity);
-        postEntity.setUpdateTime(new Date());
-        if (postMapper.insert(postEntity) == 1) {
-            return true;
-        }
-        return false;
+    public SysPostEntity selectPostById(Long postId) {
+        return sysPostMapper.selectById(postId);
     }
 
     @Override
-    public Boolean delete(Integer[] userIds) {
-        if (userIds == null) {
-            return false;
+    public List<Integer> selectPostListByUserId(Long userId) {
+        return sysPostMapper.selectPostIdByUserId(userId);
+    }
+
+    @Override
+    public String checkPostNameUnique(SysPostEntity post) {
+        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
+        SysPostEntity info = checkPostNameUnique(post.getPostName());
+        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+            return UserConstants.NOT_UNIQUE;
         }
-        for (int id : userIds) {
-           List list =  userPostService.queryByPostId(id);
-           if (list!=null && list.size()>0){
-               SysPostEntity post = get(id);
-               throw new SevenException(String.format("%1$s已分配,不能删除", post.getPostName()));
-           }
+        return UserConstants.UNIQUE;
+    }
+
+    private SysPostEntity checkPostNameUnique(String postName) {
+        SevenQueryWrapper<SysPostEntity> queryWrapper = new SevenQueryWrapper<>();
+        queryWrapper.seq("post_name", postName);
+        queryWrapper.last(" limit 1");
+        return sysPostMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public String checkPostCodeUnique(SysPostEntity post) {
+        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
+        SysPostEntity info = checkPostCodeUnique(post.getPostCode());
+        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+            return UserConstants.NOT_UNIQUE;
         }
-        return true;
+        return UserConstants.UNIQUE;
+    }
+
+    private SysPostEntity checkPostCodeUnique(String postCode) {
+        SevenQueryWrapper<SysPostEntity> queryWrapper = new SevenQueryWrapper<>();
+        queryWrapper.seq("post_code", postCode);
+        queryWrapper.last(" limit 1");
+        return sysPostMapper.selectOne(queryWrapper);
     }
 
     @Override
-    public SysPostEntity get(Integer id) {
-        QueryWrapper<SysPostEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("post_id", id);
-        return postMapper.selectOne(queryWrapper);
+    public int countUserPostById(Long postId) {
+        return userPostService.countByPostId(postId);
     }
 
     @Override
-    public SysPostEntity checkPostNameUnique(String postName) {
-        QueryWrapper<SysPostEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("post_name", postName);
-        SysPostEntity user = postMapper.selectOne(queryWrapper);
-        return user;
+    public int deletePostById(Long postId) {
+        return sysPostMapper.deleteById(postId);
     }
 
     @Override
-    public SysPostEntity checkPostCodeUnique(String postCode) {
-        QueryWrapper<SysPostEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("post_code", postCode);
-        SysPostEntity user = postMapper.selectOne(queryWrapper);
-        return user;
+    public int deletePostByIds(Long[] postIds) {
+        for (Long postId : postIds) {
+            if (countUserPostById(postId) > 0) {
+                SysPostEntity post = selectPostById(postId);
+                throw new SevenException(String.format("%1$s已分配,不能删除", post.getPostName()));
+            }
+        }
+        return sysPostMapper.deleteBatchIds(Arrays.asList(postIds));
     }
+
+    @Override
+    public int insertPost(SysPostEntity post) {
+        return sysPostMapper.insert(post);
+    }
+
+    @Override
+    public int updatePost(SysPostEntity post) {
+        return sysPostMapper.updateById(post);
+    }
+
 }

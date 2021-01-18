@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 /**
- * 角色菜单表
+ * 角色和菜单关联表
  * @author chendongdong
- * @date 2020-12-21 15:15:48
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 @Mapper

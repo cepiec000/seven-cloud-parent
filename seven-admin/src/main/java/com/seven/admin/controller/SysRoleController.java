@@ -1,88 +1,152 @@
 package com.seven.admin.controller;
 
-import com.seven.admin.bean.dto.AddRoleDTO;
-import com.seven.admin.bean.dto.EditRoleDTO;
-import com.seven.admin.bean.dto.RoleUserDTO;
-import com.seven.admin.bean.dto.UserRoleOnlyDTO;
-import com.seven.admin.bean.query.RoleQuery;
-import com.seven.admin.bean.vo.RoleVO;
-import com.seven.admin.bean.vo.UserVO;
+import com.seven.admin.annotation.Log;
+import com.seven.admin.bean.dto.LoginUser;
+import com.seven.admin.bean.entity.SysRoleEntity;
+import com.seven.admin.bean.query.SysRoleQuery;
+import com.seven.admin.constant.UserConstants;
+import com.seven.admin.service.SysPermissionService;
 import com.seven.admin.service.SysRoleService;
-import com.seven.comm.core.page.PageInfo;
+import com.seven.admin.service.SysUserService;
+import com.seven.admin.service.TokenService;
+import com.seven.admin.utils.SecurityUtils;
+import com.seven.comm.core.enums.BusinessType;
 import com.seven.comm.core.response.ApiResponse;
-import com.seven.comm.core.utils.Convert;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.seven.comm.core.utils.StringUtils;
+import com.seven.comm.web.utils.ServletUtils;
+import com.seven.mybatis.pagehelper.PageTools;
+import com.seven.mybatis.pagehelper.bean.PageInfo;
+import com.seven.mybatis.pagehelper.bean.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * @author v_chendongdong
- * @version 1.0
- * @description TODO
- * @date 2020/12/23 14:38
+ * 角色信息
+ *
+ * @author ruoyi
  */
-@Api(tags = "角色管理")
 @RestController
 @RequestMapping("/system/role")
-public class SysRoleController {
-
+public class SysRoleController extends BaseController {
     @Autowired
     private SysRoleService roleService;
 
-    @RequiresPermissions("system:role:add")
-    @PostMapping("/add")
-    @ApiOperation(value = "新增角色")
-    public ApiResponse<Boolean> addRole(@Validated AddRoleDTO roleDTO) {
-        Boolean rest = roleService.addRule(roleDTO);
-        return ApiResponse.success(rest);
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private SysPermissionService permissionService;
+
+    @Autowired
+    private SysUserService userService;
+
+    @PreAuthorize("@ss.hasPermi('system:role:list')")
+    @GetMapping("/list")
+    public ApiResponse<PageInfo<SysRoleEntity>> list(SysRoleQuery role) {
+        PageTools.startPage(role.getPageNo(), role.getSize());
+        List<SysRoleEntity> list = roleService.selectRoleList(role);
+        return ApiResponse.success(new PageResult<>(list).toPageInfo());
     }
 
 
-    @RequiresPermissions("system:role:edit")
-    @PostMapping("/update")
-    @ApiOperation(value = "修改角色")
-    public ApiResponse<Boolean> update(@Validated EditRoleDTO roleDTO) {
-        Boolean rest = roleService.updateRole(roleDTO);
-        return ApiResponse.success(rest);
+
+    /**
+     * 根据角色编号获取详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:query')")
+    @GetMapping(value = "/{roleId}")
+    public ApiResponse<SysRoleEntity> getInfo(@PathVariable Long roleId) {
+        return ApiResponse.success(roleService.selectRoleById(roleId));
     }
 
+    /**
+     * 新增角色
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:add')")
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
+    @PostMapping
+    public ApiResponse add(@Validated @RequestBody SysRoleEntity role) {
+        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
+            return ApiResponse.failed("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+        } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
+            return ApiResponse.failed("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+        }
+        role.setCreateBy(SecurityUtils.getUsername());
+        return toAjax(roleService.insertRole(role));
 
-    @RequiresPermissions("system:role:remove")
-    @GetMapping("/remove")
-    @ApiOperation(value = "刪除角色")
-    public ApiResponse<Boolean> delete(@RequestParam("ids") String ids) {
-        Integer[] roleIds = Convert.toIntArray(ids);
-        Boolean rest = roleService.delete(roleIds);
-        return ApiResponse.success(rest);
     }
 
-    @RequiresPermissions("system:role:list")
-    @PostMapping("/list")
-    @ApiOperation(value = "角色列表")
-    @ResponseBody
-    public ApiResponse<PageInfo<RoleVO>> list(@RequestBody RoleQuery role) {
-        PageInfo<RoleVO> pageInfo = roleService.queryRoleList(role);
-        return ApiResponse.success(pageInfo);
+    /**
+     * 修改保存角色
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public ApiResponse edit(@Validated @RequestBody SysRoleEntity role) {
+        roleService.checkRoleAllowed(role);
+        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
+            return ApiResponse.failed("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+        } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
+            return ApiResponse.failed("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+        }
+        role.setUpdateBy(SecurityUtils.getUsername());
+
+        if (roleService.updateRole(role) > 0) {
+            // 更新缓存用户权限
+            LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+            if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin()) {
+                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
+                loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+                tokenService.setLoginUser(loginUser);
+            }
+            return ApiResponse.success();
+        }
+        return ApiResponse.failed("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
     }
 
-    @RequiresPermissions("system:role:list")
-    @PostMapping("/authUser/authRoleAll")
-    @ApiOperation(value = "批量用户授权")
-    public ApiResponse<Boolean> authUserAll(@RequestBody RoleUserDTO roleUserDTO) {
-        Boolean rest = roleService.authUserAll(roleUserDTO);
-        return ApiResponse.success(rest);
+    /**
+     * 修改保存数据权限
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/dataScope")
+    public ApiResponse dataScope(@RequestBody SysRoleEntity role) {
+        roleService.checkRoleAllowed(role);
+        return toAjax(roleService.authDataScope(role));
     }
 
-    @ApiOperation(value = "取消用户授权角色")
-    @PostMapping("/authUser/cancel")
-    @ResponseBody
-    public ApiResponse<Boolean> cancelAuthUser(@RequestBody UserRoleOnlyDTO userRoleOnly){
-        Boolean rest = roleService.cancelAuthUser(userRoleOnly);
-        return ApiResponse.success(rest);
+    /**
+     * 状态修改
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/changeStatus")
+    public ApiResponse changeStatus(@RequestBody SysRoleEntity role) {
+        roleService.checkRoleAllowed(role);
+        role.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(roleService.updateRoleStatus(role));
     }
 
+    /**
+     * 删除角色
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:remove')")
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
+    @DeleteMapping("/{roleIds}")
+    public ApiResponse remove(@PathVariable Long[] roleIds) {
+        return toAjax(roleService.deleteRoleByIds(roleIds));
+    }
 
+    /**
+     * 获取角色选择框列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:query')")
+    @GetMapping("/optionselect")
+    public ApiResponse optionselect() {
+        return ApiResponse.success(roleService.selectRoleAll());
+    }
 }

@@ -13,6 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>seven-common-core</module>
+        <module>seven-pagehelper</module>
+        <module>seven-web-common</module>
     </modules>
 
 </project>

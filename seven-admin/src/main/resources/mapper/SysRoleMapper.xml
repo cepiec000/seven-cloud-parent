@@ -3,20 +3,54 @@
 
 <mapper namespace="com.seven.admin.mapper.SysRoleMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.seven.admin.bean.entity.SysRoleEntity" id="sysRoleMap">
         <result property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
-        <result property="roleCode" column="role_code"/>
-        <result property="roleDesc" column="role_desc"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
+        <result property="roleKey" column="role_key"/>
+        <result property="roleSort" column="role_sort"/>
+        <result property="dataScope" column="data_scope"/>
+        <result property="menuCheckStrictly" column="menu_check_strictly"/>
+        <result property="deptCheckStrictly" column="dept_check_strictly"/>
+        <result property="status" column="status"/>
         <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
 
     <sql id="Base_All_Column_List">
-        role_id   ,role_name  ,role_code  ,role_desc  ,create_time  ,update_time  ,del_flag 
+        role_id   ,role_name  ,role_key  ,role_sort  ,data_scope  ,menu_check_strictly  ,dept_check_strictly  ,status  ,del_flag  ,create_by  ,create_time  ,update_by  ,update_time  ,remark 
     </sql>
+
+    <select id="selectRolePermissionByUserId" resultMap="sysRoleMap">
+        select distinct r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
+            r.status, r.del_flag, r.create_time, r.remark
+        from sys_role r
+	        left join sys_user_role ur on ur.role_id = r.role_id
+	        left join sys_user u on u.user_id = ur.user_id
+	        left join sys_dept d on u.dept_id = d.dept_id
+	    WHERE r.del_flag = '0' and ur.user_id = #{userId}
+    </select>
+
+    <select id="selectByUserName" resultMap="sysRoleMap">
+        select distinct r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
+            r.status, r.del_flag, r.create_time, r.remark
+        from sys_role r
+	        left join sys_user_role ur on ur.role_id = r.role_id
+	        left join sys_user u on u.user_id = ur.user_id
+	        left join sys_dept d on u.dept_id = d.dept_id
+	        WHERE r.del_flag = '0' and u.user_name = #{userName}
+    </select>
+    <select id="selectRoleIdByUserId" resultType="java.lang.Integer">
+        select r.role_id
+        from sys_role r
+	        left join sys_user_role ur on ur.role_id = r.role_id
+	        left join sys_user u on u.user_id = ur.user_id
+	    where u.user_id = #{userId}
+    </select>
 
 </mapper>

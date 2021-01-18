@@ -1,69 +1,103 @@
 package com.seven.admin.controller;
 
-import com.seven.admin.bean.dto.AddPostDTO;
-import com.seven.admin.bean.dto.AddUserDTO;
-import com.seven.admin.bean.dto.EditPostDTO;
-import com.seven.admin.bean.dto.EditUserDTO;
-import com.seven.admin.bean.query.PostQuery;
-import com.seven.admin.bean.query.UserQuery;
-import com.seven.admin.bean.vo.PostVO;
-import com.seven.admin.bean.vo.UserVO;
+import com.seven.admin.annotation.Log;
+import com.seven.admin.bean.entity.SysPostEntity;
+import com.seven.admin.bean.query.SysPostQuery;
+import com.seven.admin.constant.UserConstants;
 import com.seven.admin.service.SysPostService;
-import com.seven.admin.service.SysUserPostService;
-import com.seven.comm.core.page.PageInfo;
+import com.seven.admin.utils.SecurityUtils;
+import com.seven.comm.core.enums.BusinessType;
 import com.seven.comm.core.response.ApiResponse;
-import com.seven.comm.core.utils.Convert;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.seven.mybatis.pagehelper.PageTools;
+import com.seven.mybatis.pagehelper.bean.PageInfo;
+import com.seven.mybatis.pagehelper.bean.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * @author v_chendongdong
- * @version 1.0
- * @description TODO
- * @date 2020/12/24 14:54
+ * 岗位信息操作处理
+ *
+ * @author ruoyi
  */
-@Api(tags = "岗位管理")
 @RestController
 @RequestMapping("/system/post")
-public class SysPostController {
+public class SysPostController extends BaseController {
     @Autowired
     private SysPostService postService;
 
-
-    @RequiresPermissions("system:post:list")
-    @PostMapping("/list")
-    @ApiOperation(value = "用户列表")
-    public ApiResponse<PageInfo<PostVO>> list(@RequestBody PostQuery post) {
-        PageInfo<PostVO> pageInfo = postService.queryVoList(post);
-        return ApiResponse.success(pageInfo);
+    /**
+     * 获取岗位列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:post:list')")
+    @GetMapping("/list")
+    public ApiResponse<PageInfo<SysPostEntity>> list(SysPostQuery post) {
+        PageTools.startPage(post.getPageNo(), post.getSize());
+        List<SysPostEntity> list = postService.selectPostList(post);
+        return ApiResponse.success(new PageResult<>(list).toPageInfo());
     }
 
-    @PostMapping("add")
-    @RequiresPermissions("system:post:add")
-    @ApiOperation(value = "添加岗位")
-    public ApiResponse<Boolean> add(@Validated AddPostDTO post) {
-        Boolean rest = postService.addPost(post);
-        return ApiResponse.success(rest);
+
+    /**
+     * 根据岗位编号获取详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('system:post:query')")
+    @GetMapping(value = "/{postId}")
+    public ApiResponse getInfo(@PathVariable Long postId) {
+        return ApiResponse.success(postService.selectPostById(postId));
     }
 
-    @PostMapping("update")
-    @RequiresPermissions("system:post:edit")
-    @ApiOperation(value = "修改岗位")
-    public ApiResponse<Boolean> update(@Validated EditPostDTO post) {
-        Boolean rest = postService.updatePost(post);
-        return ApiResponse.success(rest);
+    /**
+     * 新增岗位
+     */
+    @PreAuthorize("@ss.hasPermi('system:post:add')")
+    @Log(title = "岗位管理", businessType = BusinessType.INSERT)
+    @PostMapping
+    public ApiResponse add(@Validated @RequestBody SysPostEntity post) {
+        if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
+            return ApiResponse.failed("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+        } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
+            return ApiResponse.failed("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+        }
+        post.setCreateBy(SecurityUtils.getUsername());
+        return toAjax(postService.insertPost(post));
     }
 
-    @GetMapping("delete")
-    @RequiresPermissions("system:post:delete")
-    @ApiOperation(value = "删除岗位")
-    public ApiResponse<Boolean> delete(@RequestParam("ids") String ids) {
-        Integer[] userIds = Convert.toIntArray(ids);
-        Boolean rest = postService.delete(userIds);
-        return ApiResponse.success(rest);
+    /**
+     * 修改岗位
+     */
+    @PreAuthorize("@ss.hasPermi('system:post:edit')")
+    @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public ApiResponse edit(@Validated @RequestBody SysPostEntity post) {
+        if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
+            return ApiResponse.failed("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
+        } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
+            return ApiResponse.failed("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
+        }
+        post.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(postService.updatePost(post));
+    }
+
+    /**
+     * 删除岗位
+     */
+    @PreAuthorize("@ss.hasPermi('system:post:remove')")
+    @Log(title = "岗位管理", businessType = BusinessType.DELETE)
+    @DeleteMapping("/{postIds}")
+    public ApiResponse remove(@PathVariable Long[] postIds) {
+        return toAjax(postService.deletePostByIds(postIds));
+    }
+
+    /**
+     * 获取岗位选择框列表
+     */
+    @GetMapping("/optionselect")
+    public ApiResponse optionselect() {
+        List<SysPostEntity> posts = postService.selectPostAll();
+        return ApiResponse.success(posts);
     }
 }

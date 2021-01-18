@@ -1,26 +1,22 @@
 package com.seven.admin.bean.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 用户与岗位关联表
  * 
  * @author chendongdong
- * @date 2020-12-24 14:00:27
+ * @date 2021-01-04 10:43:24
  * @version 1.0
  */
 @TableName("sys_user_post")
@@ -35,9 +31,11 @@ public class SysUserPostEntity implements Serializable {
 private static final long serialVersionUID = 1L;
 
 
+    @TableField
     @ApiModelProperty(value = "用户ID")
-    private Integer userId;
+    private Long userId;
 
+    @TableField
     @ApiModelProperty(value = "岗位ID")
-    private Integer postId;
+    private Long postId;
 }
